@@ -1,0 +1,3 @@
+/mnt/c/Users/Usman/workspace/lab-03-shared-ptr/_build/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/Usman/workspace/lab-03-shared-ptr/_build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/Usman/workspace/lab-03-shared-ptr/_build/CMakeFiles/shared_ptr.dir
