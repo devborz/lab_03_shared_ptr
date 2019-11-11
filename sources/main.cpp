@@ -16,7 +16,6 @@ int main() {
     try {
         cout << "\nPtr1 = " << *ptr1.get() << " cnt = " << *ptr1.use_count();
         cout << "\nPtr2 = " << *ptr2.get() << " cnt = " << *ptr2.use_count();
-        //ptr2.reset(&z);
         cout << "\nPtr3 = " << *ptr3.get() << " cnt = " << *ptr3.use_count();
 
         cout << "\n\nPtr3 was copied from Ptr2. Now we will reset Ptr2 to check"
@@ -24,14 +23,11 @@ int main() {
         ptr2.reset();
         cout << "\nPtr3 = " << *ptr3.get() << " cnt = " << *ptr3.use_count();
 
-        //cout << "\n\nPtr2 reset for z:\n";
         ptr1.swap(ptr3);
 
         cout << "\n\nPtr1 and Ptr3 swap:";
         cout << "\nPtr1 = " << *ptr1.get();
         cout << "\nPtr3 = " << *ptr3.get();
-
-        //cout << "\nPtr3 = " << *ptr3.get();
 
         cout << "\n\nPtr3 reset for varable Z:\n";
         ptr3.reset(&z);
