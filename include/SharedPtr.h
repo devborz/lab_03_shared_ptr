@@ -83,6 +83,8 @@ auto SharedPtr<T>::operator=(const SharedPtr & r) -> SharedPtr& {
     this->ptr = std::move(r).ptr;
     this->cnt_of_use = std::move(r).cnt_of_use;
 
+    ++*this->cnt_of_use;
+    
     return *this;
 }
 
