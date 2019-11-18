@@ -19,7 +19,7 @@ public:
 
     SharedPtr();
     SharedPtr(T* ptr);
-    SharedPtr(SharedPtr& r);
+    SharedPtr(const SharedPtr& r);
     SharedPtr(SharedPtr&& r);
     ~SharedPtr();
     auto operator=(const SharedPtr& r)->SharedPtr&;
@@ -54,7 +54,7 @@ SharedPtr<T>::SharedPtr(T * ptr) {
 
 
 template <typename T>
-SharedPtr<T>::SharedPtr(SharedPtr & r) {
+SharedPtr<T>::SharedPtr(const SharedPtr & r) {
     this->ptr = r.ptr;
     this->cnt_of_use = r.cnt_of_use;
     ++*this->cnt_of_use;
@@ -63,9 +63,7 @@ SharedPtr<T>::SharedPtr(SharedPtr & r) {
 
 template <typename T>
 SharedPtr<T>::SharedPtr(SharedPtr && r) {
-    this->ptr = std::move(r).ptr;
-    this->cnt_of_use = std::move(r).cnt_of_use;
-    ++*this->cnt_of_use;
+    this->swap(r);
 }
 
 
@@ -78,25 +76,17 @@ SharedPtr<T>::~SharedPtr() {
 
 template <typename T>
 auto SharedPtr<T>::operator=(const SharedPtr & r) -> SharedPtr& {
-    if (this->cnt_of_use != nullptr) --*this->cnt_of_use;
 
-    this->ptr = std::move(r).ptr;
-    this->cnt_of_use = std::move(r).cnt_of_use;
+    SharedPtr(r).swap(*this);
 
-    ++*this->cnt_of_use;
-    
     return *this;
 }
 
 
 template <typename T>
 auto SharedPtr<T>::operator=(SharedPtr && r) -> SharedPtr& {
-    if (this->cnt_of_use != nullptr) --*this->cnt_of_use;
 
-    this->ptr = std::move(r).ptr;
-    this->cnt_of_use = std::move(r).cnt_of_use;
-
-    ++*this->cnt_of_use;
+    SharedPtr(std::move(r)).swap(*this);
 
     return *this;
 }
@@ -148,12 +138,8 @@ void SharedPtr<T>::reset(T * ptr) {
 
 template <typename T>
 void SharedPtr<T>::swap(SharedPtr & r) {
-    T* tmp1 = r.ptr;
-    atomic_uint* tmp2 = r.cnt_of_use;
-    r = *this;
-
-    this->ptr = tmp1;
-    this->cnt_of_use = tmp2;
+    std::swap(this->ptr, r.ptr);
+    std::swap(this->cnt_of_use, r.cnt_of_use);
 }
 
 
