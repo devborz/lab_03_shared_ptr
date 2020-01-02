@@ -1,9 +1,4 @@
-//
-// Created by devborz on 14.10.2019.
-//
-
 #pragma once
-
 #include <iostream>
 #include <atomic>
 
@@ -16,7 +11,6 @@ private:
     atomic_uint* cnt_of_use;
 
 public:
-
     SharedPtr();
     SharedPtr(T* ptr);
     SharedPtr(const SharedPtr& r);
@@ -70,13 +64,11 @@ SharedPtr<T>::SharedPtr(SharedPtr && r) {
 template <typename T>
 SharedPtr<T>::~SharedPtr() {
     this->reset();
-};
-
+}
 
 
 template <typename T>
 auto SharedPtr<T>::operator=(const SharedPtr & r) -> SharedPtr& {
-
     SharedPtr(r).swap(*this);
 
     return *this;
@@ -85,12 +77,10 @@ auto SharedPtr<T>::operator=(const SharedPtr & r) -> SharedPtr& {
 
 template <typename T>
 auto SharedPtr<T>::operator=(SharedPtr && r) -> SharedPtr& {
-
     SharedPtr(std::move(r)).swap(*this);
 
     return *this;
 }
-
 
 // проверяет, указывает ли указатель на объект
 template <typename T>
@@ -130,7 +120,6 @@ template <typename T>
 void SharedPtr<T>::reset(T * ptr) {
     if (this->cnt_of_use != nullptr) --*this->cnt_of_use;
 
-
     this->ptr = ptr;
     this->cnt_of_use = new atomic_uint{1};
 }
@@ -141,7 +130,6 @@ void SharedPtr<T>::swap(SharedPtr & r) {
     std::swap(this->ptr, r.ptr);
     std::swap(this->cnt_of_use, r.cnt_of_use);
 }
-
 
 // возвращает количество объектов SharedPtr, которые ссылаются на тот же управляемый объект
 template <typename T>
