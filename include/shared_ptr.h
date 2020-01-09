@@ -98,7 +98,7 @@ void shared_ptr<T>::reset(T* ptr) {
   if (this->use_count_ != nullptr)
     if (*this->use_count_ == 1) {
       delete this->use_count_;
-      // delete this->pointer_;
+      delete this->pointer_;
     } else {
       --*this->use_count_;
     }
